@@ -10,12 +10,12 @@ brew install kafka
 brew install kafka-python
 ```
 
-__Nota Bene 2022:__ _If you're running on a M1 Mac, take a look at the bottom of the page._
+__Nota Bnee 2022:__ _If you're running on a M1 Mac, take a look at the bottom of the page._
 
 ## Running Kafka
 
 There are a couple shell scripts for running `zookeeper` and `kafka`.
-You need to run `zookeeper` first in a terminal by itself.
+iYou need to run `zookeeper` frst in a terminal by itself.
 Then run `kafka` in a different terminal.
 
 Then run the `Producers` and `consumers` each in their own terminals. (as needed)
@@ -37,7 +37,7 @@ To help, we've provided a test producer that creates random messages and send th
 
 ### Phase 1
 
-build a kafka consumer in python to use SQLalchemy to store incoming transactions into a SQL Database. 
+build a kafka consumer in python to use SQLalchemy to store incoming transactions into a SQL Database.
 you may use any SQL DB you're comfortable with. (Postgres, MySQL, RDS ... ?)
 
 We have supplied a simple generation producer that creates random banking transactions:
@@ -164,3 +164,19 @@ And for the `kafka` process:
 ```bash
  /opt/homebrew/opt/kafka/bin/kafka-server-start /opt/homebrew/etc/kafka/server.properties
  ```
+
+
+Make 4 terminals in this order
+
+Run zookeeper then kafka
+
+bash ./start-zookeeper.sh
+bash ./start-kafka.sh
+
+kafka-console-producer --broker-list localhost:9092 --topic test
+
+kafka-console-consumer --bootstrap-server localhost:9092 --topic test --from-beginning
+
+
+
+

@@ -1,0 +1,187 @@
+[
+    {
+        "label": "KafkaConsumer",
+        "importPath": "kafka",
+        "description": "kafka",
+        "isExtraImport": true,
+        "detail": "kafka",
+        "documentation": {}
+    },
+    {
+        "label": "KafkaProducer",
+        "importPath": "kafka",
+        "description": "kafka",
+        "isExtraImport": true,
+        "detail": "kafka",
+        "documentation": {}
+    },
+    {
+        "label": "KafkaConsumer",
+        "importPath": "kafka",
+        "description": "kafka",
+        "isExtraImport": true,
+        "detail": "kafka",
+        "documentation": {}
+    },
+    {
+        "label": "TopicPartition",
+        "importPath": "kafka",
+        "description": "kafka",
+        "isExtraImport": true,
+        "detail": "kafka",
+        "documentation": {}
+    },
+    {
+        "label": "KafkaConsumer",
+        "importPath": "kafka",
+        "description": "kafka",
+        "isExtraImport": true,
+        "detail": "kafka",
+        "documentation": {}
+    },
+    {
+        "label": "KafkaProducer",
+        "importPath": "kafka",
+        "description": "kafka",
+        "isExtraImport": true,
+        "detail": "kafka",
+        "documentation": {}
+    },
+    {
+        "label": "loads",
+        "importPath": "json",
+        "description": "json",
+        "isExtraImport": true,
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "dumps",
+        "importPath": "json",
+        "description": "json",
+        "isExtraImport": true,
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "loads",
+        "importPath": "json",
+        "description": "json",
+        "isExtraImport": true,
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "loads",
+        "importPath": "json",
+        "description": "json",
+        "isExtraImport": true,
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "dumps",
+        "importPath": "json",
+        "description": "json",
+        "isExtraImport": true,
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "sleep",
+        "importPath": "time",
+        "description": "time",
+        "isExtraImport": true,
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "sleep",
+        "importPath": "time",
+        "description": "time",
+        "isExtraImport": true,
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "random",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "random",
+        "description": "random",
+        "detail": "random",
+        "documentation": {}
+    },
+    {
+        "label": "consumer",
+        "kind": 5,
+        "importPath": "phase0.consumer",
+        "description": "phase0.consumer",
+        "peekOfCode": "consumer = KafkaConsumer(\n    'test',\n    bootstrap_servers=['localhost:9092'],\n    value_deserializer=lambda m: loads(m.decode('ascii')))\nfor message in consumer:\n    print(message)\n    message = message.value\n    print('{} found'.format(message))",
+        "detail": "phase0.consumer",
+        "documentation": {}
+    },
+    {
+        "label": "producer",
+        "kind": 5,
+        "importPath": "phase0.producer",
+        "description": "phase0.producer",
+        "peekOfCode": "producer = KafkaProducer(bootstrap_servers=['localhost:9092'],\n    value_serializer=lambda m: dumps(m).encode('ascii'))\nfor e in range(1000):\n    data = {'number' : e}\n    print(data)\n    producer.send('test', value=data)\n    sleep(5)",
+        "detail": "phase0.producer",
+        "documentation": {}
+    },
+    {
+        "label": "XactionConsumer",
+        "kind": 6,
+        "importPath": "phase1.consumer-to-SQL",
+        "description": "phase1.consumer-to-SQL",
+        "peekOfCode": "class XactionConsumer:\n    def __init__(self):\n        self.consumer = KafkaConsumer('bank-customer-events',\n            bootstrap_servers=['localhost:9092'],\n            # auto_offset_reset='earliest',\n            value_deserializer=lambda m: loads(m.decode('ascii')))\n        ## These are two python dictionarys\n        # Ledger is the one where all the transaction get posted\n        self.ledger = {}\n        # custBalances is the one where the current blance of each customer",
+        "detail": "phase1.consumer-to-SQL",
+        "documentation": {}
+    },
+    {
+        "label": "consumer",
+        "kind": 5,
+        "importPath": "phase1.consumerecho",
+        "description": "phase1.consumerecho",
+        "peekOfCode": "consumer = KafkaConsumer(\n    'bank-customer-events',\n     bootstrap_servers=['localhost:9092'],\n     value_deserializer=lambda m: loads(m.decode('ascii')))\nfor message in consumer:\n    print(message)\n    message = message.value\n    print('{} found'.format(message))",
+        "detail": "phase1.consumerecho",
+        "documentation": {}
+    },
+    {
+        "label": "Producer",
+        "kind": 6,
+        "importPath": "phase1.producer-random-xactions",
+        "description": "phase1.producer-random-xactions",
+        "peekOfCode": "class Producer:\n    def __init__(self):\n        self.producer = KafkaProducer(bootstrap_servers=['localhost:9092'], value_serializer=lambda m: dumps(m).encode('ascii'))\n    def emit(self, cust=55, type=\"dep\"):\n        data = {'custid' : random.randint(50,56),\n            'type': self.depOrWth(),\n            'date': int(time.time()),\n            'amt': random.randint(10,101)*100,\n            }\n        return data",
+        "detail": "phase1.producer-random-xactions",
+        "documentation": {}
+    },
+    {
+        "label": "Customer",
+        "kind": 6,
+        "importPath": "models",
+        "description": "models",
+        "peekOfCode": "class Customer(db.Model):\n    __tablename__ = 'customer'\n    id = db.Column(db.Integer, primary_key=True)\n    name = db.Column(db.String(250), nullable=False)\n    balance = db.Column(db.Integer)\n    trans_id = db.Column(db.Integer, db.ForeignKey('transaction.id'))\nclass Transaction(db.Model):\n    __tablename__ = 'transaction'\n    id = db.Column(db.Integer, primary_key=True)\n    type = db.Column(db.String(250), nullable=False)",
+        "detail": "models",
+        "documentation": {}
+    },
+    {
+        "label": "Transaction",
+        "kind": 6,
+        "importPath": "models",
+        "description": "models",
+        "peekOfCode": "class Transaction(db.Model):\n    __tablename__ = 'transaction'\n    id = db.Column(db.Integer, primary_key=True)\n    type = db.Column(db.String(250), nullable=False)\n    date = db.Column(db.Integer)\n    amt = db.Column(db.Integer)\n    cust_id = db.Column(db.Integer, db.ForeignKey('customer.id'))",
+        "detail": "models",
+        "documentation": {}
+    }
+]
